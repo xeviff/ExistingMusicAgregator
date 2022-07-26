@@ -1,3 +1,5 @@
+config/MusicAgregatorConfig.yml
+
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
