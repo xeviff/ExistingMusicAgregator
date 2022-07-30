@@ -14,13 +14,15 @@ public class ArtistCopyService {
         this.driveApiGateway = new GoogleDriveApiGateway();
     }
 
-    public void moveNextArtistFromFolder(String idOriginFolder, String idDestinationFolder) throws IOException {
+    public String moveNextArtistFromFolder(String idOriginFolder, String idDestinationFolder) throws IOException {
         List<File> artists = driveApiGateway.getFirstChildFromFolderById(idOriginFolder);
-        moveNextArtist(artists, idDestinationFolder, idOriginFolder);
+        return moveNextArtist(artists, idOriginFolder, idDestinationFolder);
     }
-    private void moveNextArtist(List<File> artists, String originId, String destinationId) throws IOException {
+
+    private String moveNextArtist(List<File> artists, String originId, String destinationId) throws IOException {
         File file = artists.get(0);
         driveApiGateway.moveFolder(file.getId(), originId, destinationId);
+        return file.getName();
     }
 
 }

@@ -6,21 +6,27 @@ import com.amihaiemil.eoyaml.YamlMapping;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
+import java.util.*;
 
 import static cat.hack3.mangrana.utils.Output.log;
 
 public class ConfigFileLoader {
 
     private static final String CONFIG_FOLDER = "/config";
-    private static final String CONFIG_FILE = "MusicAgregatorConfig.yml";
-    private static final String MUSIC_TD_KEY = "music_team_drive_id";
-    private static final String ORIGIN_FOLDER_KEY = "origin_folder_id";
-    private static final String DESTINATION_FOLDER_KEY = "destination_folder_id";
+    private static final String CONFIG_FILE = "MusicAggregatorConfig.yml";
 
-    private final String musicTDid;
-    private final String originFolderId;
-    private final String destinationFolderId;
+    public enum ProjectConfiguration {
+        MUSIC_TEAM_DRIVE_ID,
+        ORIGIN_FOLDER_ID,
+        DESTINATION_FOLDER_ID,
+        DESTINATION_FOLDER_PATH,
+        PLEX_TOKEN,
+        PLEX_URL,
+        PLEX_SECTION_REFRESH_URI,
+        PLEX_MUSIC_SECTION_ID
+    }
+
+    private final EnumMap<ProjectConfiguration, String> configurationsMap;
 
     public ConfigFileLoader() throws IncorrectWorkingReferencesException {
         log("Loading values from the config file...");
@@ -29,33 +35,32 @@ public class ConfigFileLoader {
                     new File(getConfigFolder().concat("/").concat(CONFIG_FILE)))
                     .readYamlMapping();
 
-            musicTDid = Optional.ofNullable(
-                     config.string(MUSIC_TD_KEY))
-                     .orElseThrow(() -> new IncorrectWorkingReferencesException("Couldn't retrieve the musicTDid :(") );
-            originFolderId = Optional.ofNullable(
-                     config.string(ORIGIN_FOLDER_KEY))
-                     .orElseThrow(() -> new IncorrectWorkingReferencesException("Couldn't retrieve the origin folder id :(") );
-            destinationFolderId = Optional.ofNullable(
-                            config.string(DESTINATION_FOLDER_KEY))
-                    .orElseThrow(() -> new IncorrectWorkingReferencesException("Couldn't retrieve the destination folder id :(") );
+            configurationsMap = new EnumMap<>(ProjectConfiguration.class);
+            Arrays.stream(ProjectConfiguration.values())
+                    .forEach(projectConfiguration -> addConfigToMap(config, projectConfiguration));
+
         } catch (IOException e) {
             throw new IncorrectWorkingReferencesException("couldn't find the config file :(");
         }
     }
 
+    private void addConfigToMap (YamlMapping config, ProjectConfiguration configKey) {
+        try {
+            String configValue = Optional.ofNullable(
+                    config.string(configKey.name().toLowerCase()))
+                    .orElseThrow(() -> new IncorrectWorkingReferencesException("Couldn't retrieve the configuration: "+configKey.name()) );
+            configurationsMap.put(configKey, configValue);
+        } catch (IncorrectWorkingReferencesException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getConfig(ProjectConfiguration key) {
+        return configurationsMap.get(key);
+    }
+
     private String getConfigFolder(){
-        return CONFIG_FOLDER;
+        return System.getProperty("user.dir") + CONFIG_FOLDER;
     }
 
-    public String getMusicTDid() {
-        return musicTDid;
-    }
-
-    public String getOriginFolderId() {
-        return originFolderId;
-    }
-
-    public String getDestinationFolderId() {
-        return destinationFolderId;
-    }
 }

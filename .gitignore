@@ -1,4 +1,4 @@
-config/MusicAgregatorConfig.yml
+config/MusicAggregatorConfig.yml
 src/main/resources/credentials.json
 tokens/StoredCredential
 

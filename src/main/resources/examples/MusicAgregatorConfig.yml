@@ -1,4 +1,8 @@
 music_team_drive_id: 1o2i3u4y5y6t6u4o
 origin_folder_id: 1o2i3u4y5y6t6u4o
 destination_folder_id: 1o2i3u4y5y6t6u4o
-
+destination_folder_path: /mnt/mangrana_music/Musica/A/
+plex_token: 1j2i3j34i4j5i5ji5
+plex_url: https://plex.domain.is
+plex_section_refresh_uri: /library/sections/{section_id}/refresh
+plex_music_section_id: 22
