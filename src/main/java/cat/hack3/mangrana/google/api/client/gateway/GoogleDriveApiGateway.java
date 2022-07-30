@@ -22,7 +22,7 @@ public class GoogleDriveApiGateway {
         service = GoogleDriveUtils.getDriveService();
     }
 
-    public List<File> getSomeChildrenFoldersById(String id)  {
+    public List<File> getFirstChildFromFolderById(String id)  {
         List<File> fullFileList = new ArrayList<>();
 
         String query =
@@ -37,7 +37,7 @@ public class GoogleDriveApiGateway {
                     .setIncludeItemsFromAllDrives(true)
                     .setSupportsTeamDrives(true)
                     .setFields("nextPageToken, files(id, name)")
-                    .setPageSize(3)
+                    .setPageSize(1)
                     .setOrderBy("name")
                     .execute();
 

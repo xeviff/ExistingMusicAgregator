@@ -15,10 +15,9 @@ public class ArtistCopyService {
     }
 
     public void moveNextArtistFromFolder(String idOriginFolder, String idDestinationFolder) throws IOException {
-        List<File> artists = driveApiGateway.getSomeChildrenFoldersById(idOriginFolder);
+        List<File> artists = driveApiGateway.getFirstChildFromFolderById(idOriginFolder);
         moveNextArtist(artists, idDestinationFolder, idOriginFolder);
     }
-
     private void moveNextArtist(List<File> artists, String originId, String destinationId) throws IOException {
         File file = artists.get(0);
         driveApiGateway.moveFolder(file.getId(), originId, destinationId);

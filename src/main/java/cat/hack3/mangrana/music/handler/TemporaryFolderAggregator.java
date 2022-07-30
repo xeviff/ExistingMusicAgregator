@@ -22,7 +22,7 @@ public class TemporaryFolderAggregator {
     private void moveOneArtist() throws IOException {
         artistCopyService.
                 moveNextArtistFromFolder(configFileLoader.getOriginFolderId(),
-                                            configFileLoader.getDestinationFolderId());
+                                         configFileLoader.getDestinationFolderId());
     }
 
 }
