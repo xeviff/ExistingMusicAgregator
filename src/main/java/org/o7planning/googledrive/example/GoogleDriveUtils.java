@@ -53,10 +53,10 @@ public class GoogleDriveUtils {
         // Load client secrets.
         InputStream in = GoogleDriveUtils.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         if (in == null) {
-            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+            throw new FileNotFoundException("Resource not found: "+CREDENTIALS_FILE_PATH);
         }
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-        log("clientSecrets Generated. "+clientSecrets.getDetails().getClientSecret());
+        log("clientSecrets Generated. "+clientSecrets.getDetails().getClientSecret().substring(0,10).concat("___etc"));
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
