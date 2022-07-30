@@ -7,5 +7,6 @@ services:
     build: .
     volumes:
       - ./config:/config
-    ports:
-      - "8888:8888"
+      - ./tokens:/tokens
+#    ports:
+#      - "8888:8888"
