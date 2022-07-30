@@ -5,3 +5,7 @@ services:
     container_name: mangrana_java_music_aggregator
     image: existing-music-aggregator:latest
     build: .
+    volumes:
+      - ./config:/config
+    ports:
+      - "8888:8888"

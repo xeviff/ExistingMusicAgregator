@@ -20,6 +20,8 @@ import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.List;
 
+import static cat.hack3.mangrana.utils.Output.log;
+
 public class GoogleDriveUtils {
 
     private static final String APPLICATION_NAME = "Google Drive API Java Quickstart";
@@ -54,7 +56,7 @@ public class GoogleDriveUtils {
             throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
         }
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-
+        log("clientSecrets Generated. "+clientSecrets.getDetails().getClientSecret());
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
