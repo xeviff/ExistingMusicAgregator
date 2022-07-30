@@ -4,6 +4,8 @@ cd "/your_device/java projects/ExistingMusicAgregator"
 echo "> docker-compose down and up"
 docker-compose down
 echo "> down complete, now up"
-docker-compose up > ~/logs/java/music/$(date +"%Y-%m-%d_%H-%M")_artist_move.log
+filename=$(date +"%Y-%m-%d_%H-%M")_artist_move.log
+docker-compose up > ~/logs/java/music/$filename
+echo "$(cat ~/logs/java/music/$filename)"
 echo "> "
 echo "> done!"
