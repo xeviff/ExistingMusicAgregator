@@ -22,15 +22,17 @@ public class PlexCommandLauncher {
     }
 
     public void refreshArtist(String artistPath) {
+        String fullDestinationPath = config.getConfig(DESTINATION_FOLDER_PATH) + artistPath;
+        log("refreshing artist located on "+fullDestinationPath);
         String plexRefreshURL = getPlexRefreshURL();
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
             HttpUriRequest httpGET = RequestBuilder.get()
                     .setUri(new URI(plexRefreshURL))
-                    .addParameter("path", config.getConfig(DESTINATION_FOLDER_PATH) + artistPath)
+                    .addParameter("path", fullDestinationPath)
                     .addParameter("X-Plex-Token", config.getConfig(PLEX_TOKEN))
                     .build();
             httpclient.execute(httpGET);
-            log("launched url command: "+httpGET.getURI().toString().replaceFirst(config.getConfig(PLEX_TOKEN), "***plex_token***"));
+            log("launched url command: "+httpGET.getURI().toString().replaceFirst(config.getConfig(PLEX_TOKEN), "__plex_token__"));
         } catch (URISyntaxException | IOException e) {
             log("could not refresh plex artist because of "+e.getMessage());
             e.printStackTrace();

@@ -9,12 +9,12 @@ import java.io.IOException;
 
 import static cat.hack3.mangrana.config.ConfigFileLoader.ProjectConfiguration.DESTINATION_FOLDER_ID;
 import static cat.hack3.mangrana.config.ConfigFileLoader.ProjectConfiguration.ORIGIN_FOLDER_ID;
+import static cat.hack3.mangrana.utils.Output.log;
 
 public class TemporaryFolderAggregator {
 
     private final ConfigFileLoader configFileLoader;
     private final ArtistCopyService artistCopyService;
-
     private final PlexCommandLauncher plexCommandLauncher;
 
     public TemporaryFolderAggregator() throws IncorrectWorkingReferencesException, IOException {
@@ -24,11 +24,13 @@ public class TemporaryFolderAggregator {
     }
 
     public static void main(String[] args) throws IncorrectWorkingReferencesException, IOException {
+        log("Hi, this is the temporary folder aggregator, so here we move artists.");
         new TemporaryFolderAggregator().aggregateNextArtist();
     }
 
     private void aggregateNextArtist() throws IOException {
         String artistName = moveOneArtist();
+        log("successfully moved artist: "+artistName);
         plexCommandLauncher.refreshArtist(artistName);
     }
 
