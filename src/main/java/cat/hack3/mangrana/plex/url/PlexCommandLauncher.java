@@ -11,6 +11,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import static cat.hack3.mangrana.config.ConfigFileLoader.ProjectConfiguration.*;
+import static cat.hack3.mangrana.utils.APIInterface.ProtocolURLMark.HTTPS;
 import static cat.hack3.mangrana.utils.Output.log;
 
 public class PlexCommandLauncher {
@@ -43,6 +44,6 @@ public class PlexCommandLauncher {
         String host = config.getConfig(PLEX_URL);
         String uriFormat = config.getConfig(PLEX_SECTION_REFRESH_URI);
         String uri = uriFormat.replaceFirst("\\{section_id}", config.getConfig(PLEX_MUSIC_SECTION_ID));
-        return host + uri;
+        return HTTPS.getMark() + host + uri;
     }
 }
