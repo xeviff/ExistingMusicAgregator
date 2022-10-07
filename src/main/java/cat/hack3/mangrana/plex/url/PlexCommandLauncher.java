@@ -1,5 +1,6 @@
 package cat.hack3.mangrana.plex.url;
 
+import cat.hack3.mangrana.bean.Artist;
 import cat.hack3.mangrana.config.ConfigFileLoader;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
@@ -22,8 +23,10 @@ public class PlexCommandLauncher {
         this.config = config;
     }
 
-    public void refreshArtist(String artistPath) {
-        String fullDestinationPath = config.getConfig(DESTINATION_FOLDER_PATH) + artistPath;
+    public void refreshArtist(Artist artist) {
+        String fullDestinationPath = config.getConfig(DESTINATION_FOLDER_PATH)
+                .replaceFirst("\\{letter}", artist.getLetterFolder())
+                + artist.getName();
         log("refreshing artist located on "+fullDestinationPath);
         String plexRefreshURL = getPlexRefreshURL();
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
@@ -33,7 +36,7 @@ public class PlexCommandLauncher {
                     .addParameter("X-Plex-Token", config.getConfig(PLEX_TOKEN))
                     .build();
             httpclient.execute(httpGET);
-            log("launched url command: "+httpGET.getURI().toString().replaceFirst(config.getConfig(PLEX_TOKEN), "__plex_token__"));
+            log("launched url command: "+httpGET.getURI().toString());//.replaceFirst(config.getConfig(PLEX_TOKEN), "__plex_token__"));
         } catch (URISyntaxException | IOException e) {
             log("could not refresh plex artist because of "+e.getMessage());
             e.printStackTrace();

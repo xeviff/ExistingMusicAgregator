@@ -3,26 +3,24 @@ package cat.hack3.mangrana.google.api.client.gateway;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
-import org.apache.commons.collections4.CollectionUtils;
 import org.o7planning.googledrive.example.GoogleDriveUtils;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static cat.hack3.mangrana.utils.Output.log;
 
 public class GoogleDriveApiGateway {
 
     Drive service;
-
-
-    public enum GoogleElementType {FOLDER, VIDEO}
-
     public GoogleDriveApiGateway() throws IOException {
         service = GoogleDriveUtils.getDriveService();
     }
 
-    public List<File> getFirstChildFromFolderById(String id)  {
+    public List<File> getChildrenFolderFromFolderById(String id)  {
         List<File> fullFileList = new ArrayList<>();
 
         String query =
@@ -37,7 +35,7 @@ public class GoogleDriveApiGateway {
                     .setIncludeItemsFromAllDrives(true)
                     .setSupportsTeamDrives(true)
                     .setFields("nextPageToken, files(id, name)")
-                    .setPageSize(1)
+                    .setPageSize(100)
                     .setOrderBy("name")
                     .execute();
 
@@ -49,6 +47,20 @@ public class GoogleDriveApiGateway {
 
         return fullFileList;
     }
+
+    public File getOrCreateFolderByNameAndParentIdInTeamDrive(String name, String idDestinationFolder) throws IOException {
+        Optional<File> childElement = getChildrenFolderFromFolderById(idDestinationFolder).stream()
+                .filter(file -> name.equals(file.getName()))
+                .findFirst();
+
+        if (childElement.isPresent()) {
+            return childElement.get();
+        } else {
+            return createFolder(name, idDestinationFolder);
+        }
+    }
+
+
     public void moveFolder(String elementId, String currentParentFolderId, String destinationFolderId) throws IOException {
         service.files()
                 .update(elementId, null)
@@ -56,26 +68,6 @@ public class GoogleDriveApiGateway {
                 .setRemoveParents(currentParentFolderId)
                 .setSupportsTeamDrives(true)
                 .execute();
-    }
-
-    public void copyFile(String fileId, String destinationFolderId) throws IOException {
-        File newFileReference = new File();
-        newFileReference.setParents(Collections.singletonList(destinationFolderId));
-        service.files()
-                .copy(fileId, newFileReference)
-                .setSupportsTeamDrives(true)
-                .execute();
-    }
-
-    public String getParentFolderIdFromFile (String elementId) throws IOException {
-        File file = service.files()
-                .get(elementId)
-                .setSupportsTeamDrives(true)
-                .setFields("parents")
-                .execute();
-        if (CollectionUtils.isNotEmpty(file.getParents()))
-            return file.getParents().get(0);
-        else throw new NoSuchElementException("parents not found");
     }
 
     public File createFolder(String name, String parentFolderId) throws IOException {
@@ -88,17 +80,6 @@ public class GoogleDriveApiGateway {
                 .create(fileMetadata)
                 .setSupportsTeamDrives(true)
                 .execute();
-    }
-
-    private String getTypeFilterQuery(GoogleElementType type) {
-        switch (type) {
-            case VIDEO:
-                return " and mimeType contains 'video'";
-            case FOLDER:
-                return " and mimeType = 'application/vnd.google-apps.folder'";
-            default:
-                return "";
-        }
     }
 
 }

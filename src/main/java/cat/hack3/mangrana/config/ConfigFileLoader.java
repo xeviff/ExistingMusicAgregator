@@ -12,7 +12,6 @@ public class ConfigFileLoader {
     private static final String CONFIG_FILE = "MusicAggregatorConfig.yml";
 
     public enum ProjectConfiguration {
-        MUSIC_TEAM_DRIVE_ID,
         ORIGIN_FOLDER_ID,
         DESTINATION_FOLDER_ID,
         DESTINATION_FOLDER_PATH,
