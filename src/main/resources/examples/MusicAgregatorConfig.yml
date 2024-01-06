@@ -1,6 +1,9 @@
-origin_folder_id: 1o2i3u4y5y6t6u4o
-destination_folder_id: 1o2i3u4y5y6t6u4o
-destination_folder_path: /mnt/mangrana_music/Musica/{letter}/
+trobal_origin_folder_id: 1o2i3u4y5y6t6u4o
+trobal_destination_folder_id: 1o2i3u4y5y6t6u4o
+trobal_destination_folder_path: /mnt/mangrana_music/Musica/{letter}/
+mangrusic_origin_folder_id: 1o2i3u4y5y6t6u4o
+mangrusic_destination_folder_id: 1o2i3u4y5y6t6u4o
+mangrusic_destination_folder_path: /mnt/mangrana_music/MyNewMusic/
 plex_token: 1j2i3j34i4j5i5ji5
 plex_url: https://plex.domain.is
 plex_section_refresh_uri: /library/sections/{section_id}/refresh

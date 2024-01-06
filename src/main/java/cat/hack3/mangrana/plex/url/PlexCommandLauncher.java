@@ -24,7 +24,7 @@ public class PlexCommandLauncher {
     }
 
     public void refreshArtist(Artist artist) {
-        String fullDestinationPath = config.getConfig(DESTINATION_FOLDER_PATH)
+        String fullDestinationPath = config.getConfig(TROBAL_DESTINATION_FOLDER_PATH)
                 .replaceFirst("\\{letter}", artist.getLetterFolder())
                 + artist.getName();
         log("refreshing artist located on "+fullDestinationPath);

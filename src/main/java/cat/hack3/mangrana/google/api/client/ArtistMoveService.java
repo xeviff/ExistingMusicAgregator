@@ -6,6 +6,7 @@ import com.google.api.services.drive.model.File;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,9 +33,10 @@ public class ArtistMoveService {
     private File getFirstNonEmptyLetterFolder(String idOriginFolder) {
         log("going to lookup the first non-empty letter folder");
         List<File> letterFoldersList = driveApiGateway.getChildrenFolderFromFolderById(idOriginFolder);
+        Iterator<File> lettersIterator = letterFoldersList.iterator();
         File letterFolder = null;
         while (letterFolder==null) {
-            File letterFolderCandidate = letterFoldersList.iterator().next();
+            File letterFolderCandidate = lettersIterator.next();
             artistList = driveApiGateway.getChildrenFolderFromFolderById(letterFolderCandidate.getId());
             boolean isNotEmpty = Objects.nonNull(artistList) && CollectionUtils.isNotEmpty(artistList) && artistList.size()>0;
             if (isNotEmpty) {

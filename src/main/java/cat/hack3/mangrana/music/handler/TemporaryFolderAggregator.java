@@ -43,8 +43,8 @@ public class TemporaryFolderAggregator {
 
     private Artist moveOneArtist() throws IOException {
         return artistMoveService.
-                moveNextArtistFromFolder(configFileLoader.getConfig(ORIGIN_FOLDER_ID),
-                                         configFileLoader.getConfig(DESTINATION_FOLDER_ID));
+                moveNextArtistFromFolder(configFileLoader.getConfig(TROBAL_ORIGIN_FOLDER_ID),
+                                         configFileLoader.getConfig(TROBAL_DESTINATION_FOLDER_ID));
     }
 
     private void waitOneMinute() {

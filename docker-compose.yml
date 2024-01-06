@@ -3,7 +3,7 @@ version: "2.1"
 services:
   existing-music-aggregator:
     container_name: mangrana_java_music_aggregator
-    image: existing-music-aggregator:latest
+    image: xeviff/existing-music-aggregator:latest
     build: .
     volumes:
       - ./config:/config

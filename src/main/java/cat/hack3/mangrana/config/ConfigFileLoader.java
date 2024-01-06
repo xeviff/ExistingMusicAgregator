@@ -12,9 +12,9 @@ public class ConfigFileLoader {
     private static final String CONFIG_FILE = "MusicAggregatorConfig.yml";
 
     public enum ProjectConfiguration {
-        ORIGIN_FOLDER_ID,
-        DESTINATION_FOLDER_ID,
-        DESTINATION_FOLDER_PATH,
+        TROBAL_ORIGIN_FOLDER_ID,
+        TROBAL_DESTINATION_FOLDER_ID,
+        TROBAL_DESTINATION_FOLDER_PATH,
         PLEX_TOKEN,
         PLEX_URL,
         PLEX_SECTION_REFRESH_URI,
